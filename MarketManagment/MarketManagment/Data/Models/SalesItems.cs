@@ -1,0 +1,25 @@
+﻿using MarketManagment.Data.Common;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.AccessControl;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace MarketManagment.Data.Models
+{
+    public class SalesItems : BaseModel
+    {
+        private static int id = 0;
+        
+        public SalesItems()
+        {
+            Id = id;
+            id++;
+        }
+
+        public Product Product { get; set; }
+        public int Quantity { get; set; }
+    }
+
+}
