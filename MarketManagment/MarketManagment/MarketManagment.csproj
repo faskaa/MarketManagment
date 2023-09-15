@@ -7,4 +7,12 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Data\Common\" />
+    <Folder Include="Data\Enums\" />
+    <Folder Include="Data\Models\" />
+    <Folder Include="Services\Asbtract\" />
+    <Folder Include="Services\Concrete\" />
+  </ItemGroup>
+
 </Project>
