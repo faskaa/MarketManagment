@@ -8,11 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Data\Common\" />
-    <Folder Include="Data\Enums\" />
-    <Folder Include="Data\Models\" />
-    <Folder Include="Services\Asbtract\" />
-    <Folder Include="Services\Concrete\" />
+    <PackageReference Include="ConsoleTables" Version="2.5.0" />
   </ItemGroup>
 
 </Project>

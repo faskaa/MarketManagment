@@ -8,11 +8,12 @@ using System.Threading.Tasks;
 
 namespace MarketManagment.Services.Abstract
 {
-    public interface IMarketableService
+    public interface IMarketService
     {       
         public List<Sale> GetSales();
         public List<Product> GetProducts();
-        public int AddSale(int id, decimal price, SalesItems salesItems, DateTime date);
+        //sales item i helelik silirem => elave et
+        public int AddSale(decimal price,  DateTime date);
         public int ReturnSale(int id);
         public int ReturnAllSale(Sale sale);
         public List<Sale> GetSaleByDateRange(DateTime minDate, DateTime maxDate);
