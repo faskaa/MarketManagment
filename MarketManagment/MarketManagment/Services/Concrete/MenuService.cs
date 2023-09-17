@@ -5,8 +5,10 @@ using MarketManagment.Services.Abstract;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace MarketManagment.Services.Concrete
 {
@@ -101,6 +103,80 @@ namespace MarketManagment.Services.Concrete
                 Console.WriteLine(ex.Message);
             }
         }
+        
+        public static void ShowProductByName()
+        {
+            try
+            {
+                Console.WriteLine("Enter product's name");
+                string name = Console.ReadLine()!;
+
+                var table = new ConsoleTable("ID", "Name", "Price", "Category", "Quantity");
+
+                foreach (var product in marketService.GetProductByName(name))
+                {
+                    table.AddRow(product.Id , product.Name , product.Price ,product.Category, product.Quantity);
+                }
+
+                table.Write();
+            }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        public static void ShowProductByCategory() 
+        {
+            try
+            {
+                Console.WriteLine("Enter product's category");
+                var category = (Category)Enum.Parse(typeof(Category), Console.ReadLine()!);
+
+                var table = new ConsoleTable("ID", "Name", "Price", "Category", "Quantity");
+
+                foreach (var product in marketService.GetProductByCategory(category))
+                {
+                    table.AddRow(product.Id, product.Name, product.Price, product.Category, product.Quantity);
+                }
+
+                table.Write();
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        public static void ShowProductByPrice()
+        {
+            try
+            {
+                Console.WriteLine("Enter product's minimum price");
+                decimal minPrice = decimal.Parse(Console.ReadLine()!);
+
+                Console.WriteLine("Enter product's maximum price");
+                decimal maxPrice = decimal.Parse(Console.ReadLine()!);
+
+                var table = new ConsoleTable("ID", "Name", "Price", "Category", "Quantity");
+
+                foreach (var product in marketService.GetProductByPriceRange(minPrice, maxPrice))
+                {
+                    table.AddRow(product.Id, product.Name, product.Price, product.Category, product.Quantity);
+                }
+
+                table.Write();
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        
     }
 
 }

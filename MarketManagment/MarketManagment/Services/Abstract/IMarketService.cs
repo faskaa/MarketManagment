@@ -23,8 +23,8 @@ namespace MarketManagment.Services.Abstract
 
         public int AddProduct(string name, decimal price, Category category, int quantity);
         public int ChangeProduct(int id);
-        public Category GetCategory(Category category);
+        public List<Product> GetProductByCategory(Category category);
         public List<Product> GetProductByPriceRange(Decimal minPrice, decimal maxPrice);
-        public List<Product> GetProductByPriceName(string name);
+        public List<Product> GetProductByName(string name);
     }
 }

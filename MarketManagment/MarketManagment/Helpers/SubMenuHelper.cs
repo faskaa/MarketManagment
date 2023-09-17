@@ -20,7 +20,7 @@ namespace MarketManagment.Helpers
                 Console.WriteLine("2. Modify product");
                 Console.WriteLine("3. Delete product");
                 Console.WriteLine("4. Show products");
-                Console.WriteLine("5. Show products by sort");
+                Console.WriteLine("5. Show products by category");
                 Console.WriteLine("6. Show products price range");
                 Console.WriteLine("7. Find product by name");
 
@@ -39,9 +39,9 @@ namespace MarketManagment.Helpers
                         case 2: Console.WriteLine(); break;
                         case 3: Console.WriteLine(); break;
                         case 4: MenuService.ShowProducts(); break;
-                        case 5: Console.WriteLine(); break;
-                        case 6: Console.WriteLine(); break;
-                        case 7: Console.WriteLine(); break;
+                        case 5: MenuService.ShowProductByCategory(); break;
+                        case 6: MenuService.ShowProductByPrice(); break;
+                        case 7: MenuService.ShowProductByName(); break;
                         default: Console.WriteLine("No such option"); break;
                 }     
             } while (selectedOption != 0);

@@ -5,8 +5,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace MarketManagment.Services.Concrete
 {
@@ -54,26 +56,38 @@ namespace MarketManagment.Services.Concrete
             throw new NotImplementedException();
         }
 
-        public Category GetCategory(Category category)
+        public List<Product> GetProductByCategory(Category category)
         {
-            throw new NotImplementedException();
+            var product = products.Where(x => x.Category == category).ToList();
+            
+            if (product == null)
+                throw new Exception("Product not found!");
+
+            return product;
         }
 
-        public List<Product> GetProductByPriceName(string name)
+        public List<Product> GetProductByName(string name)
         {
-            if (string.IsNullOrWhiteSpace(name))
-                throw new Exception("Name can't be empty!");
+           if (string.IsNullOrWhiteSpace(name))
+              throw new Exception("Name can't be empty!");
             
-            var Products =products.Find(x => x.Name == name);
-            
-            if (Products == null)
-                throw new Exception("Product with this name not found!");
-            
+            var product = products.FirstOrDefault(x=>x.Name == name);
+            if (product == null)
+                throw new Exception("Product not found!");
+          
+            return products;
         }
 
         public List<Product> GetProductByPriceRange(decimal minPrice, decimal maxPrice)
         {
-            throw new NotImplementedException();
+            if (minPrice > maxPrice)
+                throw new Exception("Maximum price can't be less than minimum price");
+         
+            var product = products.Where(x => x.Price > minPrice && x.Price < maxPrice);
+            if (false)//islemir!!
+                throw new Exception();
+
+            return product.ToList();
         }
 
         public List<Product> GetProducts()
