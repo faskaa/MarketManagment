@@ -33,27 +33,92 @@ namespace MarketManagment.Services.Concrete
                 Category = category,
                 Quantity = quantity
             };
-            
+
             products.Add(product);
 
             return product.Id;
         }
-        //sales item i helelik silirem => elave et
-        public int AddSale(decimal price, DateTime date)
-        {   
-            var sale = new Sale
+
+        public int AddSale(List<SalesItems> salesItems, DateTime date)
+        {
+            if (salesItems == null || !salesItems.Any())
+                throw new Exception();
+
+            var sale = new Sale()
             {
-                Price = price,
-                //SalesItems = salesItems,
-                Date = date
+                Date = date,
+                SalesItems = new List<SalesItems>()
             };
-            sales.Add(sale);
-            return sale.Id;
+
+            decimal totalPrice = 0;
+            foreach (var item in salesItems)
+            {
+                if(item.Quantity <= 0)
+                    throw new Exception();
+
+                var product = products.FirstOrDefault(x=>x.Id == item.ProductId);
+
+                if (product == null)
+                    throw new Exception();
+
+                if (product.Quantity < item.Quantity)
+                    throw new Exception();
+
+                item.TotalPrice = product.Price * item.Quantity;
+
+                var saleItem = new SalesItems()
+                {
+                    SaleId = sale.Id,
+                    ProductId = item.ProductId,
+                    Quantity = item.Quantity,
+                    TotalPrice = item.TotalPrice,
+                };
+                sale.SalesItems.Add(saleItem);
+                product.Quantity -= saleItem.Quantity;      
+                
+            }
+            return sale.SalesItems.Count;
         }
 
-        public int ChangeProduct(int id)
+
+        public int ChangeProduct(int id , string newName , decimal newPrice , Category newCategory, int newQuantity)
         {
-            throw new NotImplementedException();
+            if(id < 0) 
+                throw new Exception("ID can't be less than 0");
+
+            if (string.IsNullOrWhiteSpace(newName))
+                throw new Exception("Name can't be empty");
+
+            if (newPrice < 0)
+                throw new Exception("Price can't be less than 0");
+          
+            var product  = products.Find(x => x.Id == id);
+            
+            if (product == null)
+                throw new Exception($"Product  with ID {id} not found!");
+            
+            product.Name = newName;
+            product.Price = newPrice;
+            product.Category = newCategory;
+            product.Quantity = newQuantity;
+            
+            return product.Id;
+        }
+
+        public int DeleteProduct(int id)
+        {
+            if (id < 0)
+                throw new Exception("Id can't be less than 0!");
+
+            var product = products.FirstOrDefault(x=>x.Id == id);
+
+            if (product is null)
+                throw new Exception($"Patient with ID:{id} was not found!");
+
+            products.Remove(product);
+
+            Console.WriteLine($"Product with ID:{id} deleted ");
+            return id;
         }
 
         public List<Product> GetProductByCategory(Category category)
@@ -71,11 +136,11 @@ namespace MarketManagment.Services.Concrete
            if (string.IsNullOrWhiteSpace(name))
               throw new Exception("Name can't be empty!");
             
-            var product = products.FirstOrDefault(x=>x.Name == name);
+            var product = products.Where(x=>x.Name == name).ToList();
             if (product == null)
                 throw new Exception("Product not found!");
           
-            return products;
+            return product.ToList();
         }
 
         public List<Product> GetProductByPriceRange(decimal minPrice, decimal maxPrice)
@@ -83,11 +148,11 @@ namespace MarketManagment.Services.Concrete
             if (minPrice > maxPrice)
                 throw new Exception("Maximum price can't be less than minimum price");
          
-            var product = products.Where(x => x.Price > minPrice && x.Price < maxPrice);
-            if (false)//islemir!!
-                throw new Exception();
+            var prod = products.Where(x => x.Price >= minPrice && x.Price <= maxPrice).ToList();
+           if(prod.Count == 0)
+                throw new Exception("Product not found");
 
-            return product.ToList();
+            return prod.ToList();
         }
 
         public List<Product> GetProducts()
@@ -120,14 +185,16 @@ namespace MarketManagment.Services.Concrete
             return sales;
         }
 
-        public int ReturnAllSale(Sale sale)
+        public int DeleteAllSale(Sale sale)
         {
-            throw new NotImplementedException();
+            throw new Exception();
         }
 
-        public int ReturnSale(int id)
+        public int DeleteSale(int id)
         {
-            throw new NotImplementedException();
+            throw new Exception();
         }
+
+        
     }
 }

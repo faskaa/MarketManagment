@@ -17,15 +17,19 @@ namespace MarketManagment.Helpers
             do 
             {
                 Console.WriteLine("1. Add new product");
-                Console.WriteLine("2. Modify product");
+                Console.WriteLine("2. Upgrade product");
                 Console.WriteLine("3. Delete product");
                 Console.WriteLine("4. Show products");
                 Console.WriteLine("5. Show products by category");
                 Console.WriteLine("6. Show products price range");
                 Console.WriteLine("7. Find product by name");
 
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("0. Return");
+                Console.ResetColor();
                 Console.WriteLine("Please, select an option");
+                Console.WriteLine("---------------------------------");
+                
 
                 while (!int.TryParse(Console.ReadLine(), out selectedOption))
                 {
@@ -36,8 +40,8 @@ namespace MarketManagment.Helpers
                 {
                         case 0: break;
                         case 1: MenuService.AddProducts(); break;
-                        case 2: Console.WriteLine(); break;
-                        case 3: Console.WriteLine(); break;
+                        case 2: MenuService.UpdateProduct(); break;
+                        case 3: MenuService.DeleteProduct(); break;
                         case 4: MenuService.ShowProducts(); break;
                         case 5: MenuService.ShowProductByCategory(); break;
                         case 6: MenuService.ShowProductByPrice(); break;
@@ -58,9 +62,9 @@ namespace MarketManagment.Helpers
                 Console.WriteLine("3. Delete sale");
                 Console.WriteLine("4. Show sales");
                 Console.WriteLine("5. Show sales by date range");
-                Console.WriteLine("6. Show products price range");
-                Console.WriteLine("7. Find product by date");
-                Console.WriteLine("8. Show product by name");
+                Console.WriteLine("6. Show sales price range");
+                Console.WriteLine("7. Find sales by date");
+                Console.WriteLine("8. Show sales by name");
 
                 Console.WriteLine("0. Return");
                 Console.WriteLine("Please, select an option");
