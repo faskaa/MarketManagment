@@ -4,6 +4,7 @@ using MarketManagment.Data.Models;
 using MarketManagment.Services.Abstract;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -59,19 +60,37 @@ namespace MarketManagment.Services.Concrete
         {
             try
             {
-                var table = new ConsoleTable("Sale ID", "amount", "Date");
-                foreach (var sale in marketService.GetSales())
+                var saleList = marketService.GetSales();
+                var tableSale = new ConsoleTable("Sale ID", "Price","Sales Items Count", "DateTime");
+
+                foreach (var sale in saleList)
                 {
-                    //foreach (var item in sale.SalesItems)
-                    //{
-                    //    table.AddRow(sale.Id, item.Id, item.Quantity, sale.Date) ;
-                    //}
-                    table.AddRow(sale.Id, sale.Amount, sale.Date);
+                    sale.Amount = 0;
+                    foreach (var item in sale.SalesItems)
+                    {
+                        sale.Amount = item.TotalPrice;
+                    }
+                    tableSale.AddRow(sale.Id , sale.Amount , sale.SalesItems.Count, sale.Date);
+                } tableSale.Write();
+                Console.WriteLine("---------------------------------------------------------------------------");
+                Console.WriteLine("SaleItems by saleId");
+                var forSaleItem = marketService.GetSales();
+                var productList = marketService.GetProducts();
 
+                var tableSaleItem = new ConsoleTable("Sale ID", "Product Name", "Product Price", "Quantity", "Total Price");
+                foreach (var sale in forSaleItem)
+                {
+                    foreach (var item in sale.SalesItems)
+                    {
+                        var product = productList.FirstOrDefault(x => x.Id == item.ProductId && sale.Id == item.SaleId);
+                        if (product == null)
+                            throw new Exception("Product not found");
 
-                    table.Write();
+                        tableSaleItem.AddRow(item.SaleId, product.Name, product.Price, item.Quantity, item.TotalPrice);
+                    }
+
                 }
-
+                tableSaleItem.Write();
             }
             catch (Exception ex)
             {
@@ -244,11 +263,58 @@ namespace MarketManagment.Services.Concrete
 
 
             }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        public static void ShowSaleByDate()
+        {
+            try
+            {
+                Console.WriteLine("Enter date");
+                var date = DateTime.ParseExact(Console.ReadLine()!, "dd.MM.yyyy HH:mm:ss", null);
+
+                var table = new ConsoleTable("Sale ID", "Amount", "DateTime");
+
+                foreach (var sale in marketService.GetSaleByDate(date))
+                { 
+                    table.AddRow(sale.Id , sale.Amount , sale.Date);
+                }
+                table.Write();
+            }
             catch (Exception)
             {
 
                 throw;
             }
+        }
+
+        public static void ShowSaleById() 
+        {
+            Console.WriteLine("SaleItems by saleId");
+            var forSaleItem = marketService.GetSales();
+            var productList = marketService.GetProducts();
+
+            var tableSaleItem = new ConsoleTable("Sale ID", "Product Name", "Product Price", "Quantity", "Total Price");
+            foreach (var sale in forSaleItem)
+            {
+                foreach (var item in sale.SalesItems)
+                {
+                    var product = productList.FirstOrDefault(x => x.Id == item.ProductId && sale.Id == item.SaleId);
+                    if (product == null)
+                        throw new Exception("Product not found");
+
+                    tableSaleItem.AddRow(item.SaleId, product.Name, product.Price, item.Quantity, item.TotalPrice);
+                }
+
+            }
+            tableSaleItem.Write();
+
+
+
         }
 
         

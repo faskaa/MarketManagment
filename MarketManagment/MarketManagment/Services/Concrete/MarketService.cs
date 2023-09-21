@@ -74,7 +74,10 @@ namespace MarketManagment.Services.Concrete
                     TotalPrice = item.TotalPrice,
                 };
                 sale.SalesItems.Add(saleItem);
-                product.Quantity -= saleItem.Quantity;      
+                product.Quantity -= saleItem.Quantity;
+
+                sales.Add(sale);
+               
                 
             }
             return sale.SalesItems.Count;
@@ -162,7 +165,8 @@ namespace MarketManagment.Services.Concrete
 
         public List<Sale> GetSaleByDate(DateTime date)
         {
-            throw new NotImplementedException();
+            var salebydate = sales.Where(x=>x.Date == date).ToList();
+            return salebydate;
         }
 
         public List<Sale> GetSaleByDateRange(DateTime minDate, DateTime maxDate)
@@ -172,7 +176,8 @@ namespace MarketManagment.Services.Concrete
 
         public List<Sale> GetSaleById(int id)
         {
-            throw new NotImplementedException();
+            var saleID = sales.Where(x=>x.Id == id).ToList();
+            return saleID;
         }
 
         public List<Sale> GetSaleByPriceRange(decimal minPrice, decimal maxPrice)

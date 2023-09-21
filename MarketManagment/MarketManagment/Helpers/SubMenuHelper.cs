@@ -63,7 +63,7 @@ namespace MarketManagment.Helpers
                 Console.WriteLine("4. Show sales");
                 Console.WriteLine("5. Show sales by date range");
                 Console.WriteLine("6. Show sales price range");
-                Console.WriteLine("7. Find sales by date");
+                Console.WriteLine("7. Show sales by date");
                 Console.WriteLine("8. Show sales by name");
 
                 Console.WriteLine("0. Return");
@@ -83,7 +83,7 @@ namespace MarketManagment.Helpers
                     case 4: MenuService.ShowSales(); break;
                     case 5: Console.WriteLine(); break;
                     case 6: Console.WriteLine(); break;
-                    case 7: Console.WriteLine(); break;
+                    case 7: MenuService.ShowSaleByDate(); break;
                     case 8: Console.WriteLine(); break;
 
                     default: Console.WriteLine("No such option"); break;
