@@ -17,7 +17,7 @@ namespace MarketManagment.Services.Abstract
         public List<Sale> GetSaleByDateRange(DateTime minDate, DateTime maxDate);
         public List<Sale> GetSaleByDate(DateTime date);
         public List<Sale> GetSaleByPriceRange(decimal minPrice, decimal maxPrice);
-        public List<Sale> GetSaleById(int id);
+        public Sale GetSaleById(int id);
 
         public int AddProduct(string name, decimal price, Category category, int quantity);
         public List<Product> GetProducts();

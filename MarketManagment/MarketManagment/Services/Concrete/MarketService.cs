@@ -174,15 +174,29 @@ namespace MarketManagment.Services.Concrete
             throw new NotImplementedException();
         }
 
-        public List<Sale> GetSaleById(int id)
+        public Sale GetSaleById(int id)
         {
-            var saleID = sales.Where(x=>x.Id == id).ToList();
-            return saleID;
+            if (id <= 0)
+                throw new Exception("SaleId can't be less than 0!");
+
+            var saleId = sales.FirstOrDefault(x => x.Id == id);
+            if (saleId is null)
+                throw new Exception($"Sale with SaleId = {id} is not available");
+
+            return saleId;
         }
 
         public List<Sale> GetSaleByPriceRange(decimal minPrice, decimal maxPrice)
         {
-            throw new NotImplementedException();
+            if (minPrice > maxPrice)
+                throw new Exception("Minimum price can't be less than maximum price");
+
+            var saleByPrice = sales.Where(x => x.Amount > minPrice && x.Amount < maxPrice).ToList();
+          
+            if (saleByPrice is null)
+                throw new Exception("Sale is not aviable");
+
+            return saleByPrice;
         }
 
         public List<Sale> GetSales()
