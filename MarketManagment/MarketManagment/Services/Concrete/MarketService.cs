@@ -185,6 +185,7 @@ namespace MarketManagment.Services.Concrete
 
         public Sale GetSaleById(int id)
         {
+<<<<<<< HEAD
             if (id < 0)
                 throw new Exception("Id can't be 0");
             
@@ -195,11 +196,22 @@ namespace MarketManagment.Services.Concrete
 
             return saleID;
             
+=======
+            if (id <= 0)
+                throw new Exception("SaleId can't be less than 0!");
+
+            var saleId = sales.FirstOrDefault(x => x.Id == id);
+            if (saleId is null)
+                throw new Exception($"Sale with SaleId = {id} is not available");
+
+            return saleId;
+>>>>>>> cf79ced232df579d90482a467264c362dd0f7b38
         }
 
         public List<Sale> GetSaleByPriceRange(decimal minPrice, decimal maxPrice)
         {
             if (minPrice > maxPrice)
+<<<<<<< HEAD
                 throw new Exception("Maximum price can't be less than minimum price!");
 
             if (minPrice < 0)
@@ -217,6 +229,16 @@ namespace MarketManagment.Services.Concrete
                 throw new Exception("No products available in this range");
 
             return saleByPriceRange;                    
+=======
+                throw new Exception("Minimum price can't be less than maximum price");
+
+            var saleByPrice = sales.Where(x => x.Amount > minPrice && x.Amount < maxPrice).ToList();
+          
+            if (saleByPrice is null)
+                throw new Exception("Sale is not aviable");
+
+            return saleByPrice;
+>>>>>>> cf79ced232df579d90482a467264c362dd0f7b38
         }
 
         public List<Sale> GetSales()
