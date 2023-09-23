@@ -13,8 +13,8 @@ namespace MarketManagment.Data.Models
        
         public Sale()
         {
-            id = Id;
-            Id++;
+            Id = id;
+            id++;
         }
 
         public decimal Amount { get; set; }

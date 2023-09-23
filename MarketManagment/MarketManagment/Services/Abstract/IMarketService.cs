@@ -12,12 +12,12 @@ namespace MarketManagment.Services.Abstract
     {       
         public List<Sale> GetSales();       
         public int AddSale(List<SalesItems> salesItems, DateTime date);
-        public int DeleteSale(int id);
-        public int DeleteAllSale(Sale sale);
+        public int DeleteSale(int saleId, int productId, int count);
+        public int DeleteAllSale(int id);
         public List<Sale> GetSaleByDateRange(DateTime minDate, DateTime maxDate);
         public List<Sale> GetSaleByDate(DateTime date);
         public List<Sale> GetSaleByPriceRange(decimal minPrice, decimal maxPrice);
-        public List<Sale> GetSaleById(int id);
+        public Sale GetSaleById(int id);
 
         public int AddProduct(string name, decimal price, Category category, int quantity);
         public List<Product> GetProducts();

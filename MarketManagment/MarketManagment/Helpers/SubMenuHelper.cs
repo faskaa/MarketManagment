@@ -16,6 +16,8 @@ namespace MarketManagment.Helpers
 
             do 
             {
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+
                 Console.WriteLine("1. Add new product");
                 Console.WriteLine("2. Upgrade product");
                 Console.WriteLine("3. Delete product");
@@ -57,6 +59,8 @@ namespace MarketManagment.Helpers
 
             do
             {
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+
                 Console.WriteLine("1. Add new sale");
                 Console.WriteLine("2. Returning any product");
                 Console.WriteLine("3. Delete sale");
@@ -64,7 +68,7 @@ namespace MarketManagment.Helpers
                 Console.WriteLine("5. Show sales by date range");
                 Console.WriteLine("6. Show sales price range");
                 Console.WriteLine("7. Show sales by date");
-                Console.WriteLine("8. Show sales by name");
+                Console.WriteLine("8. Show sales by ID");
 
                 Console.WriteLine("0. Return");
                 Console.WriteLine("Please, select an option");
@@ -78,13 +82,13 @@ namespace MarketManagment.Helpers
                 {
                     case 0: break;
                     case 1: MenuService.AddSale(); break;
-                    case 2: Console.WriteLine(); break;
-                    case 3: Console.WriteLine(); break;
+                    case 2: MenuService.DeleteSale(); break;
+                    case 3: MenuService.DeleteAllSale(); break;
                     case 4: MenuService.ShowSales(); break;
-                    case 5: Console.WriteLine(); break;
-                    case 6: Console.WriteLine(); break;
+                    case 5: MenuService.ShowSaleByDateRange(); break;
+                    case 6: MenuService.ShowSalesByPriceRange(); break;
                     case 7: MenuService.ShowSaleByDate(); break;
-                    case 8: Console.WriteLine(); break;
+                    case 8: MenuService.ShowSaleById(); break;
 
                     default: Console.WriteLine("No such option"); break;
                 }

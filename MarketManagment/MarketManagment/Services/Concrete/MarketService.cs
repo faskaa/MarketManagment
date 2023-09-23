@@ -7,6 +7,7 @@ using System.Linq;
 using System.Numerics;
 using System.Security.AccessControl;
 using System.Text;
+using System.Threading.Channels;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
@@ -42,7 +43,7 @@ namespace MarketManagment.Services.Concrete
         public int AddSale(List<SalesItems> salesItems, DateTime date)
         {
             if (salesItems == null || !salesItems.Any())
-                throw new Exception();
+                throw new Exception("There are no sale items");
 
             var sale = new Sale()
             {
@@ -53,16 +54,16 @@ namespace MarketManagment.Services.Concrete
             decimal totalPrice = 0;
             foreach (var item in salesItems)
             {
-                if(item.Quantity <= 0)
-                    throw new Exception();
 
-                var product = products.FirstOrDefault(x=>x.Id == item.ProductId);
+                if (item.Quantity <= 0)
+                    throw new Exception("Quantity can't be less than 0!");
 
-                if (product == null)
-                    throw new Exception();
+                var product = products.FirstOrDefault(x => x.Id == item.ProductId);
+                if (product is null)
+                    throw new Exception($"Product with ID {item.ProductId} not found.");
 
                 if (product.Quantity < item.Quantity)
-                    throw new Exception();
+                    throw new Exception("Not enough quantity available for sale");
 
                 item.TotalPrice = product.Price * item.Quantity;
 
@@ -71,15 +72,15 @@ namespace MarketManagment.Services.Concrete
                     SaleId = sale.Id,
                     ProductId = item.ProductId,
                     Quantity = item.Quantity,
-                    TotalPrice = item.TotalPrice,
+                    TotalPrice = item.TotalPrice
                 };
                 sale.SalesItems.Add(saleItem);
                 product.Quantity -= saleItem.Quantity;
 
-                sales.Add(sale);
-               
-                
             }
+
+            sales.Add(sale);
+
             return sale.SalesItems.Count;
         }
 
@@ -171,18 +172,51 @@ namespace MarketManagment.Services.Concrete
 
         public List<Sale> GetSaleByDateRange(DateTime minDate, DateTime maxDate)
         {
-            throw new NotImplementedException();
+            if (minDate > maxDate)
+                throw new Exception("Maximum date can't be less than minimum date");
+
+            var saleByDateRange = sales.Where(x => x.Date > minDate && x.Date < maxDate).ToList();
+
+            if (saleByDateRange == null)
+                throw new Exception("No products available in this range");
+
+            return saleByDateRange;
         }
 
-        public List<Sale> GetSaleById(int id)
+        public Sale GetSaleById(int id)
         {
-            var saleID = sales.Where(x=>x.Id == id).ToList();
+            if (id < 0)
+                throw new Exception("Id can't be 0");
+            
+            var saleID = sales.FirstOrDefault(x => x.Id == id);
+
+            if (saleID == null)
+                throw new Exception("Not Found!");
+
             return saleID;
+            
         }
 
         public List<Sale> GetSaleByPriceRange(decimal minPrice, decimal maxPrice)
         {
-            throw new NotImplementedException();
+            if (minPrice > maxPrice)
+                throw new Exception("Maximum price can't be less than minimum price!");
+
+            if (minPrice < 0)
+                throw new Exception("Minumum price can't be less than 0");
+
+            if (minPrice == null)
+                throw new Exception("Maximum price can't be empty");
+
+            if (maxPrice == null)
+                throw new Exception("Maximum price can't be empty");
+
+            var saleByPriceRange = sales.Where(x => x.Amount > minPrice && x.Amount < maxPrice).ToList();
+
+            if (saleByPriceRange == null)
+                throw new Exception("No products available in this range");
+
+            return saleByPriceRange;                    
         }
 
         public List<Sale> GetSales()
@@ -190,16 +224,63 @@ namespace MarketManagment.Services.Concrete
             return sales;
         }
 
-        public int DeleteAllSale(Sale sale)
+        public int DeleteAllSale(int id)
         {
-            throw new Exception();
+            if (id < 0)
+                throw new Exception("Id cant be less than 0");
+
+            var sale = sales.FirstOrDefault(x => x.Id == id);
+         
+            if (sale == null)
+                throw new Exception($"Product with Id {id} can not found");
+         
+            sales.Remove(sale);
+
+            return sale.Id;
+
         }
 
-        public int DeleteSale(int id)
+        public int DeleteSale(int saleId , int productId , int count)
         {
-            throw new Exception();
+            if (saleId < 0)
+                throw new Exception("Sale Id can't be less than 0!");
+
+            if (productId < 0)
+                throw new Exception("Product id can't be less than 0!");
+
+            if (count < 0)
+                throw new Exception("Count can't be less than 0!");
+
+            var sale = sales.FirstOrDefault(x => x.Id == saleId);
+            if (sale == null)
+                throw new Exception($"Sale with Id {saleId} not found!");
+
+            var saleItem = sale.SalesItems.FirstOrDefault(x => x.ProductId == productId);
+            if (saleItem == null)
+                throw new Exception($"SaleItem with Id {productId} not found!");
+
+            var product = products.FirstOrDefault(x => x.Id == saleItem.ProductId);
+
+            if (saleItem.Quantity < count)
+                throw new Exception($"Max {saleItem.Quantity} product could be deleted");
+
+            if (saleItem.Quantity > 0)
+            {
+
+                saleItem.Quantity -= count;
+                product!.Quantity += count;
+                saleItem.TotalPrice -= product.Price * count;
+                sale.Amount -= saleItem.TotalPrice;
+                if (saleItem.Quantity == 0)
+                {
+                    sale.SalesItems.Remove(saleItem);
+                }
+
+            }
+
+            return productId;
         }
 
-        
+
     }
 }
