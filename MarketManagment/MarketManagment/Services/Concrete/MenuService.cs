@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,7 +18,8 @@ namespace MarketManagment.Services.Concrete
     public class MenuService
     {
         private static IMarketService marketService = new MarketService();
-        //sales item i helelik silirem => elave et
+        
+        //this method adds sale 
         public static void AddSale()
         {
             try
@@ -59,6 +61,7 @@ namespace MarketManagment.Services.Concrete
             }
         }
         
+        //this method show sale
         public static void ShowSales()
         {
             try
@@ -80,31 +83,10 @@ namespace MarketManagment.Services.Concrete
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-            }
-
-
-            //try
-            //{              
-            //    var tableSale = new ConsoleTable("Sale Id", "Price", "DateTime");
-            //    foreach (var sale in marketService.GetSales())
-            //    {
-            //        sale.Amount = 0;
-            //        foreach (var item in sale.SalesItems)
-            //        {
-            //            sale.Amount += item.TotalPrice;
-            //        }
-            //        tableSale.AddRow(sale.Id, sale.Amount, sale.Date);
-            //    }
-
-            //    tableSale.Write();
-            //}
-            //catch (Exception ex)
-            //{
-            //    Console.WriteLine(ex.Message);
-            //}
-
+            }      
         }
 
+        //this method add product
         public static void AddProducts()
         {
             try
@@ -130,7 +112,8 @@ namespace MarketManagment.Services.Concrete
                 Console.WriteLine(ex.Message);
             }
         }
-
+         
+        //this method show products
         public static void ShowProducts()
         {
             try
@@ -150,6 +133,7 @@ namespace MarketManagment.Services.Concrete
             }
         }
         
+        //this method show product by name 
         public static void ShowProductByName()
         {
             try
@@ -172,6 +156,7 @@ namespace MarketManagment.Services.Concrete
             }
         }
 
+        //this method show product by category
         public static void ShowProductByCategory() 
         {
             try
@@ -195,6 +180,7 @@ namespace MarketManagment.Services.Concrete
             }
         }
 
+        //this method show product by price
         public static void ShowProductByPrice()
         {
             try
@@ -221,6 +207,7 @@ namespace MarketManagment.Services.Concrete
             }
         }
 
+        //this product delete product
         public static void DeleteProduct()
         {
             try
@@ -236,6 +223,7 @@ namespace MarketManagment.Services.Concrete
             } 
         }
 
+        //this method update product's name , price , category , quantity
         public static void UpdateProduct()
         {
             try
@@ -270,6 +258,7 @@ namespace MarketManagment.Services.Concrete
             }
         }
 
+        //this method show sale by date
         public static void ShowSaleByDate()
         {
             try
@@ -293,6 +282,7 @@ namespace MarketManagment.Services.Concrete
             }
         }
 
+        //this method show sale by ID
         public static void ShowSaleById() 
         {
             try
@@ -321,6 +311,7 @@ namespace MarketManagment.Services.Concrete
             }
         }
 
+        //this method show sales by price range
         public static void ShowSalesByPriceRange()
         {
             try
@@ -345,8 +336,7 @@ namespace MarketManagment.Services.Concrete
             }
         }
 
-        
-
+         //this method delete all sale
         public static void DeleteAllSale()
         {
             try
@@ -364,6 +354,7 @@ namespace MarketManagment.Services.Concrete
 
         }
 
+        //this method delete sale
         public static void DeleteSale()
         {
             try
@@ -386,6 +377,7 @@ namespace MarketManagment.Services.Concrete
             }
         }
 
+        //this method show sale by date range
         public static void ShowSaleByDateRange()
         {
             try

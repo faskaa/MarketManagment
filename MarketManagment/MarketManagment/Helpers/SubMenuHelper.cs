@@ -17,25 +17,32 @@ namespace MarketManagment.Helpers
             do 
             {
                 Console.ForegroundColor = ConsoleColor.DarkYellow;
-
+                Console.WriteLine("-------------------------------");                
                 Console.WriteLine("1. Add new product");
                 Console.WriteLine("2. Upgrade product");
                 Console.WriteLine("3. Delete product");
                 Console.WriteLine("4. Show products");
                 Console.WriteLine("5. Show products by category");
                 Console.WriteLine("6. Show products price range");
-                Console.WriteLine("7. Find product by name");
-
-                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("7. Show product by name");
+                Console.WriteLine(" ");
+                Console.ResetColor();
+                
+                Console.ForegroundColor = ConsoleColor.DarkRed;
                 Console.WriteLine("0. Return");
                 Console.ResetColor();
+
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
                 Console.WriteLine("Please, select an option");
                 Console.WriteLine("---------------------------------");
-                
+                Console.ResetColor();
+
 
                 while (!int.TryParse(Console.ReadLine(), out selectedOption))
                 {
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Please enter valid option:");
+                    Console.ResetColor();
                 }
 
                 switch (selectedOption)
@@ -59,8 +66,9 @@ namespace MarketManagment.Helpers
 
             do
             {
-                Console.ForegroundColor = ConsoleColor.DarkYellow;
 
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                Console.WriteLine("-------------------------------");
                 Console.WriteLine("1. Add new sale");
                 Console.WriteLine("2. Returning any product");
                 Console.WriteLine("3. Delete sale");
@@ -69,9 +77,16 @@ namespace MarketManagment.Helpers
                 Console.WriteLine("6. Show sales price range");
                 Console.WriteLine("7. Show sales by date");
                 Console.WriteLine("8. Show sales by ID");
+                Console.ResetColor();
 
+                Console.ForegroundColor= ConsoleColor.DarkRed;
                 Console.WriteLine("0. Return");
+                Console.ResetColor();
+
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
                 Console.WriteLine("Please, select an option");
+                Console.WriteLine("------------------------------");
+                Console.ResetColor();
 
                 while (!int.TryParse(Console.ReadLine(), out selectedOption))
                 {
