@@ -41,8 +41,10 @@ namespace MarketManagment.Services.Concrete
                         ProductId = id,
                         Quantity = quantity
                     }); ;
+
                     Console.WriteLine("Would you like to add another product for sale (yes/no)");
                     string answer = Console.ReadLine()!;
+                 
                     if (answer != "yes")
                     {
                         break;
